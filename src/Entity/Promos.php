@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use App\Entity\Promos;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PromosRepository;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PromosRepository::class)
@@ -24,6 +25,7 @@ class Promos
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"promos:read"})
      */
     private $id;
 
@@ -34,11 +36,13 @@ class Promos
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"promos:read"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="blob")
+     * @Groups({"promos:read"})
      */
     private $avatar;
 

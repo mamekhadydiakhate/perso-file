@@ -6,6 +6,7 @@ use App\Entity\GroupeTag;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GroupeTagRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GroupeTagRepository::class)
@@ -14,6 +15,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *     denormalizationContext={"groups"={"GroupeTag:write"}},
  *     collectionOperations={ "get","post"},
  *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class GroupeTag
 {
@@ -21,6 +23,7 @@ class GroupeTag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"GroupeTag:read"})
      */
     private $id;
 

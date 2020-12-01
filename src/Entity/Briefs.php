@@ -6,6 +6,7 @@ use App\Entity\Briefs;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BriefsRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BriefsRepository::class)
@@ -22,6 +23,7 @@ class Briefs
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"briefs:read"})
      */
     private $id;
 

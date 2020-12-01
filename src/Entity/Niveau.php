@@ -6,6 +6,7 @@ use App\Entity\Niveau;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\NiveauRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NiveauRepository::class)
@@ -22,6 +23,7 @@ class Niveau
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"niveau:read"})
      */
     private $id;
 

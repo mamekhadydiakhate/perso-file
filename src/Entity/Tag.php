@@ -6,6 +6,7 @@ use App\Entity\Tag;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TagRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
@@ -22,6 +23,7 @@ class Tag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"tag:read"})
      */
     private $id;
 

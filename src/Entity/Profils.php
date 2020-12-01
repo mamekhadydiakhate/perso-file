@@ -26,13 +26,13 @@ class Profils
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read"})
+     * @Groups({"profils:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read"})
+     * @Groups({"p:read"})
      */
     private $libelle;
 

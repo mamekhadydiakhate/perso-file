@@ -6,6 +6,7 @@ use App\Entity\Action;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ActionRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ActionRepository::class)
@@ -22,6 +23,7 @@ class Action
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"Action:read"})
      */
     private $id;
 

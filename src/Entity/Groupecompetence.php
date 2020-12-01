@@ -6,6 +6,7 @@ use App\Entity\Groupecompetence;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GroupecompetenceRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GroupecompetenceRepository::class)
@@ -22,6 +23,7 @@ class Groupecompetence
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"Groupecompetence:read"})
      */
     private $id;
 

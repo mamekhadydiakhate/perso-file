@@ -6,6 +6,7 @@ use App\Entity\LivrableAtendus;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\LivrableAtendusRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=LivrableAtendusRepository::class)
@@ -22,6 +23,7 @@ class LivrableAtendus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"LivrableAtendus:read"})
      */
     private $id;
 

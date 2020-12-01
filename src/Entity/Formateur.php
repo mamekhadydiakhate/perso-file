@@ -27,7 +27,7 @@ class Formateur extends User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read"})
+     * @Groups({"formateur:read"})
      */
     private $id;
 

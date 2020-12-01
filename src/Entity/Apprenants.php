@@ -7,6 +7,7 @@ use App\Entity\Apprenants;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ApprenantsRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ApprenantsRepository::class)
@@ -23,6 +24,7 @@ class Apprenants extends User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"apprenants:read"})
      */
     private $id;
 
