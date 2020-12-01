@@ -11,9 +11,14 @@ use App\Repository\AdministrateurRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AdministrateurRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"Administrateur:read"}},
+ *     denormalizationContext={"groups"={"Administrateur:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
-class Administrateur extends Utilisateur
+class Administrateur extends User
 {
     /**
      * @ORM\Id
@@ -32,9 +37,20 @@ class Administrateur extends Utilisateur
      */
     private $promos;
 
+    /**
+     * @ORM\OneToMany(targetEntity=groupecompetence::class, mappedBy="gerer")
+     */
+    private $Groupecompetence;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=profilSorti::class, inversedBy="administrateurs")
+     */
+    private $profilSorti;
+
     public function __construct()
     {
         $this->promos = new ArrayCollection();
+        $this->Groupecompetence = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,6 +90,48 @@ class Administrateur extends Utilisateur
     public function removePromo(promos $promo): self
     {
         $this->promos->removeElement($promo);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|groupecompetence[]
+     */
+    public function getGroupecompetence(): Collection
+    {
+        return $this->Groupecompetence;
+    }
+
+    public function addGroupecompetence(groupecompetence $groupecompetence): self
+    {
+        if (!$this->Groupecompetence->contains($groupecompetence)) {
+            $this->Groupecompetence[] = $groupecompetence;
+            $groupecompetence->setGerer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupecompetence(groupecompetence $groupecompetence): self
+    {
+        if ($this->Groupecompetence->removeElement($groupecompetence)) {
+            // set the owning side to null (unless already changed)
+            if ($groupecompetence->getGerer() === $this) {
+                $groupecompetence->setGerer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProfilSorti(): ?profilSorti
+    {
+        return $this->profilSorti;
+    }
+
+    public function setProfilSorti(?profilSorti $profilSorti): self
+    {
+        $this->profilSorti = $profilSorti;
 
         return $this;
     }

@@ -9,7 +9,12 @@ use App\Repository\GroupecompetenceRepository;
 
 /**
  * @ORM\Entity(repositoryClass=GroupecompetenceRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"Groupecompetence:read"}},
+ *     denormalizationContext={"groups"={"Groupecompetence:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class Groupecompetence
 {
@@ -29,6 +34,11 @@ class Groupecompetence
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Administrateur::class, inversedBy="Groupecompetence")
+     */
+    private $gerer;
 
     public function getId(): ?int
     {
@@ -55,6 +65,18 @@ class Groupecompetence
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getGerer(): ?Administrateur
+    {
+        return $this->gerer;
+    }
+
+    public function setGerer(?Administrateur $gerer): self
+    {
+        $this->gerer = $gerer;
 
         return $this;
     }

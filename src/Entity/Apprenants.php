@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Entity\Apprenants;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ApprenantsRepository;
@@ -9,9 +10,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ApprenantsRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"Apprenants:read"}},
+ *     denormalizationContext={"groups"={"Apprenants:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
-class Apprenants extends Utilisateur
+class Apprenants extends User
 {
     /**
      * @ORM\Id
@@ -34,6 +40,12 @@ class Apprenants extends Utilisateur
      * @ORM\Column(type="string", length=255)
      */
     private $adresse;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=profils::class, inversedBy="apprenants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $profils;
 
     public function getId(): ?int
     {
@@ -72,6 +84,17 @@ class Apprenants extends Utilisateur
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+    public function getProfils(): ?profils
+    {
+        return $this->APPRENANT;
+    }
+
+    public function setProfils(?profils $profils): self
+    {
+        $this->profils = 'APPRENANT';
 
         return $this;
     }

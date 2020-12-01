@@ -18,7 +18,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(UserPasswordEncoderInterface $encode)
     {
         $this->encode=$encode;
-    }
+    } 
     
     public function load(ObjectManager $manager)
     {
@@ -27,12 +27,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         {
             $profilsuser=$this ->GetReference(ProfilsFixtures::getReferenced($i %4));
 
-            $email=new Email();
             $user = new User();
-            $user ->setProfils($profilsuser);
-            $user ->setEmail ($fake->email);
-            //Génération des Users
-            $password = $this->encode->encodePassword ($user, 'pass_1234' );
+            $user ->setProfils($profilsuser)
+                  ->setPrenom ($fake->lastname)
+                  ->setTelephone($fake ->phoneNumber())
+                  ->setEmail ($fake->email)
+                  ->setPhoto ($fake->imageUrl())      
+                  ->setNom($fake->firstname);
+                 
+            $password = $this->encode->encodePassword ($user, '1234' );
             $user ->setPassword ($password );
             $manager ->persist ($user);
         }

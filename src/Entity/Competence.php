@@ -9,7 +9,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"competence:read"}},
+ *     denormalizationContext={"groups"={"competence:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class Competence
 {

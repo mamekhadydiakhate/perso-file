@@ -9,7 +9,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=BriefsRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"briefs:read"}},
+ *     denormalizationContext={"groups"={"briefs:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class Briefs
 {

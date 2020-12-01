@@ -9,7 +9,12 @@ use App\Repository\LivrableAtendusRepository;
 
 /**
  * @ORM\Entity(repositoryClass=LivrableAtendusRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"LivrableAtendus:read"}},
+ *     denormalizationContext={"groups"={"LivrableAtendus:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class LivrableAtendus
 {

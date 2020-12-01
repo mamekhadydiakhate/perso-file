@@ -9,9 +9,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CMRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"CM:read"}},
+ *     denormalizationContext={"groups"={"CM:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
-class CM extends Utilisateur
+class CM extends user
 {
     /**
      * @ORM\Id

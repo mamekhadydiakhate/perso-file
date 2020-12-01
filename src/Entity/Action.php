@@ -2,11 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ActionRepository;
+use App\Entity\Action;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ActionRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ActionRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"action:read"}},
+ *     denormalizationContext={"groups"={"action:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class Action
 {

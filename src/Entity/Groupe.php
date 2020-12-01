@@ -3,13 +3,19 @@
 namespace App\Entity;
 
 use App\Entity\Groupe;
+use App\Entity\Promos;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GroupeRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=GroupeRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"goupe:read"}},
+ *     denormalizationContext={"groups"={"groupe:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
+ * )
  */
 class Groupe
 {

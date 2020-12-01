@@ -9,10 +9,16 @@ use App\Repository\ProfilRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *    routePrefix="/admin",
+ *    collectionOperations ={ "get","post"},
+ *    itemOperations={"put" ,"get" ,"delete"},
+ *    normalizationContext={"groups"={"profil:read","profil:read_all"}}
+ * )
  */
 class Profils
 {
@@ -20,28 +26,38 @@ class Profils
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read"})
      */
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="profil")
+     * @Groups({"user:read"})
      */
     private $User;
 
     /**
      * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="profils")
+     * @Groups({"user:read"})
      */
     private $utilisateurs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Apprenants::class, mappedBy="profils")
+     */
+    private $apprenants;
 
     public function __construct()
     {
         $this->User = new ArrayCollection();
         $this->utilisateurs = new ArrayCollection();
+        $this->apprenants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +131,36 @@ class Profils
             // set the owning side to null (unless already changed)
             if ($utilisateur->getProfils() === $this) {
                 $utilisateur->setProfils(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Apprenants[]
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenants $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+            $apprenant->setProfils($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenants $apprenant): self
+    {
+        if ($this->apprenants->removeElement($apprenant)) {
+            // set the owning side to null (unless already changed)
+            if ($apprenant->getProfils() === $this) {
+                $apprenant->setProfils(null);
             }
         }
 

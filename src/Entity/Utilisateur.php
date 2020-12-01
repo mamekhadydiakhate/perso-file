@@ -8,7 +8,12 @@ use App\Repository\UtilisateurRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"utilisateur:read"}},
+ *     denormalizationContext={"groups"={"utilisateur:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"},
+ * )
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
  */
 class Utilisateur

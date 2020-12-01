@@ -9,7 +9,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=GroupeTagRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"GroupeTag:read"}},
+ *     denormalizationContext={"groups"={"GroupeTag:write"}},
+ *     collectionOperations={ "get","post"},
+ *     itemOperations={"put" ,"get" ,"delete"}
  */
 class GroupeTag
 {
