@@ -22,54 +22,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Administrateur extends User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"administrateur:read"})
-     */
-    private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="administrateur")
-     */
-    private $profils;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=promos::class, inversedBy="administrateurs")
+     * @ORM\ManyToMany(targetEntity=Promos::class, inversedBy="administrateurs")
      */
     private $promos;
 
     /**
-     * @ORM\OneToMany(targetEntity=groupecompetence::class, mappedBy="gerer")
+     * @ORM\OneToMany(targetEntity=Groupecompetence::class, mappedBy="gerer")
      */
     private $Groupecompetence;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=profilSorti::class, inversedBy="administrateurs")
-     */
-    private $profilSorti;
 
     public function __construct()
     {
         $this->promos = new ArrayCollection();
         $this->Groupecompetence = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getProfils(): ?Profils
-    {
-        return $this->profils;
-    }
-
-    public function setProfils(?Profils $profils): self
-    {
-        $this->profils = $profils;
-
-        return $this;
     }
 
     /**
@@ -122,18 +87,6 @@ class Administrateur extends User
                 $groupecompetence->setGerer(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getProfilSorti(): ?profilSorti
-    {
-        return $this->profilSorti;
-    }
-
-    public function setProfilSorti(?profilSorti $profilSorti): self
-    {
-        $this->profilSorti = $profilSorti;
 
         return $this;
     }

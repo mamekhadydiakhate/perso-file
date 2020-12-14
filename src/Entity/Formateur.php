@@ -24,15 +24,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Formateur extends User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToMany(targetEntity=Groupe::class)
      * @Groups({"formateur:read"})
-     */
-    private $id;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=groupe::class)
      */
     private $groupe;
 

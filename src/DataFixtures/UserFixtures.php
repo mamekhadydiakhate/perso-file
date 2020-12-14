@@ -3,8 +3,9 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\User;
 use App\Entity\Profils;
+use App\Entity\Administrateur;
+use App\DataFixtures\ProfilsFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Validator\Constraints\Email;
@@ -23,12 +24,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $fake=Factory::create('fr-FR');
+
         for ($i=1; $i <=10 ; $i++) 
         {
-            $profilsuser=$this ->GetReference(ProfilsFixtures::getReferenced($i %4));
+            
 
-            $user = new User();
-            $user ->setProfils($profilsuser)
+            $user = new Administrateur();
+            $user ->setProfils($this->getReference(ProfilsFixtures::ADMIN_USER))
                   ->setPrenom ($fake->lastname)
                   ->setTelephone($fake ->phoneNumber())
                   ->setEmail ($fake->email)

@@ -19,16 +19,5 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class CM extends user
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"CM:read"})
-     */
-    private $id;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    
 }

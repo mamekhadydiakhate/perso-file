@@ -15,9 +15,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
  * @ApiResource(
  *    routePrefix="/admin",
- *    collectionOperations ={ "get","post"},
- *    itemOperations={"put" ,"get" ,"delete"},
- *    normalizationContext={"groups"={"profil:read","profil:read_all"}}
+ *    collectionOperations ={
+ *      "get"
+ *      },
+ *    itemOperations={  
+ *      "put" ,"get"
+ *      },
+ *    normalizationContext={"groups"={"User:read","User:read_all"}}
  * )
  */
 class Profils
@@ -32,31 +36,19 @@ class Profils
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"p:read"})
+     * @Groups({"profils:read"})
      */
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="profil")
-     * @Groups({"user:read"})
+     * @Groups({"profils:read"})
      */
     private $User;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="profils")
-     * @Groups({"user:read"})
-     */
-    private $utilisateurs;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Apprenants::class, mappedBy="profils")
-     */
-    private $apprenants;
 
     public function __construct()
     {
         $this->User = new ArrayCollection();
-        $this->utilisateurs = new ArrayCollection();
         $this->apprenants = new ArrayCollection();
     }
 
@@ -101,36 +93,6 @@ class Profils
             // set the owning side to null (unless already changed)
             if ($user->getProfil() === $this) {
                 $user->setProfil(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Utilisateur[]
-     */
-    public function getUtilisateurs(): Collection
-    {
-        return $this->utilisateurs;
-    }
-
-    public function addUtilisateur(Utilisateur $utilisateur): self
-    {
-        if (!$this->utilisateurs->contains($utilisateur)) {
-            $this->utilisateurs[] = $utilisateur;
-            $utilisateur->setProfils($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateur(Utilisateur $utilisateur): self
-    {
-        if ($this->utilisateurs->removeElement($utilisateur)) {
-            // set the owning side to null (unless already changed)
-            if ($utilisateur->getProfils() === $this) {
-                $utilisateur->setProfils(null);
             }
         }
 

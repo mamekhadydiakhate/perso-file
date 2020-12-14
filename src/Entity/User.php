@@ -12,14 +12,39 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     routePrefix="/admin",
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}},
- *     collectionOperations={ "get","post"},
- *     itemOperations={"put" ,"get" ,"delete"}
+ *     collectionOperations=
+ * { 
+ *   "get_role_admin"={
+ *        "method"="GET",
+ *        "path"="/admin/users", 
+ *        "security"= "is_granted('ROLE_ADMIN')"     
+ *       },
+ *   "post_role_admin"={
+ *        "method"="POST",
+ *        "path"="/admin/users"       
+ *       },       
+ *  },
+ *     itemOperations=
+ * {
+ *   "put_role_admin"={
+ *        "method"="PUT",
+ *        "path"="/admin/users/{id}"       
+ *       }, 
+ *   "delete_role_admin"={
+ *        "method"="DELETE",
+ *        "path"="/admin/users/{id}"       
+ *       },
+ *   "get_role_admin"={
+ *        "method"="GET",
+ *        "path"="/admin/users/{id}"      
+ *       },
+ * }
  *)
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\InheritanceType("JOINED")
@@ -37,55 +62,58 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      * @Groups({"user:read"})
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read","user:write"})
-     */
-    private $email;
-
-    /**
-     * ORM\Column(type="json")
      * @Groups({"user:read"})
-     */
-    private $roles = [];
+     * @Assert\NotBlank (message="Le Code est obligatoire")
+    */
+    protected $email;
+
+    protected $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $password;
+    protected $password;
 
     /**
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="User")
      * @Groups({"user:read","user:write"})
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $profils;
+    protected $profils;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read"}) 
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $nom;
+    protected $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read"})
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $prenom;
+    protected $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read"})
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $telephone;
+    protected $telephone;
     
     /**
      * @ORM\Column(type="blob")
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read"})
+     * @Assert\NotBlank (message="Le Code est obligatoire")
      */
-    private $photo;
+    protected $photo;
 
     public function getId(): ?int
     {
@@ -121,7 +149,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // garantir que chaque utilisateur a au moins ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_'.$this->profils->getLibelle();
 
         return array_unique($roles);
     }

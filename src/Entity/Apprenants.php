@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ApprenantsRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ApprenantsRepository::class)
@@ -21,38 +22,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Apprenants extends User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"apprenants:read"})
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
-    private $niveau;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message="Le Code est obligatoire")
+     * @Groups({"Apprenant:read"})
      */
     private $adresse;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=profils::class, inversedBy="apprenants")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $profils;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getStatut(): ?string
     {
@@ -62,18 +41,6 @@ class Apprenants extends User
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
-
-        return $this;
-    }
-
-    public function getNiveau(): ?string
-    {
-        return $this->niveau;
-    }
-
-    public function setNiveau(string $niveau): self
-    {
-        $this->niveau = $niveau;
 
         return $this;
     }
@@ -88,16 +55,5 @@ class Apprenants extends User
         $this->adresse = $adresse;
 
         return $this;
-    }
-    public function getProfils(): ?profils
-    {
-        return $this->APPRENANT;
-    }
-
-    public function setProfils(?profils $profils): self
-    {
-        $this->profils = 'APPRENANT';
-
-        return $this;
-    }
+    }  
 }
